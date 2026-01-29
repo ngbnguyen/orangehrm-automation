@@ -1,0 +1,7 @@
+{
+  "api": "/api/v2/pim/employees",
+  "method": "DELETE",
+  "body": {
+    "ids": "{ids}"
+  }
+}

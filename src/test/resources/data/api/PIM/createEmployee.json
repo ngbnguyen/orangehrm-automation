@@ -1,0 +1,11 @@
+{
+  "api": "/api/v2/pim/employees",
+  "method": "POST",
+  "body": {
+    "firstName": "IMA",
+    "middleName": "GEORGIA",
+    "lastName": "SAMPLE",
+    "empPicture": null,
+    "employeeId": "{employeeId}"
+  }
+}

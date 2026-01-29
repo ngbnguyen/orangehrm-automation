@@ -1,0 +1,8 @@
+{
+  "api": "/auth/validate",
+  "method": "POST",
+  "body": {
+    "username": "Admin",
+    "password": "admin123"
+  }
+}

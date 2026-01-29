@@ -1,0 +1,6 @@
+stepDefinitions\ui\DashboardSteps.class
+runners\TestRunner.class
+stepDefinitions\ui\BasePageSteps.class
+stepDefinitions\ui\LoginSteps.class
+stepDefinitions\api\BaseApiSteps.class
+stepDefinitions\ui\PIMSteps.class
