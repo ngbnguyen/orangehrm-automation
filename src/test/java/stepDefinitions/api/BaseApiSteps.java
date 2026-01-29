@@ -6,22 +6,25 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class BaseApiSteps {
 
     private Response response;
+    protected static final Logger log = LoggerFactory.getLogger(BaseApiSteps.class);
 
     @Given("Generate random 4 digits number and store as {string}")
     public void generate4DigitAndStore(String key){
         String value = UUID.randomUUID().toString().replaceAll("[^0-9]", "").substring(0, 4);
         TestContext.set(key, value);
-        System.out.println("======== Generated " + key + ": " + value + " ========");
+        log.info("======== Generated " + key + ": " + value + " ========");
     }
 
     @When("user calls api via json file {string}")
@@ -34,7 +37,7 @@ public class BaseApiSteps {
         response = TestContext.getResponse();
         Object actual = response.jsonPath().get(jsonPath);
         TestContext.set(variable, List.of(String.valueOf(actual)));
-        System.out.println("=========== Store " + String.valueOf(actual) + "from response to list " + variable + " ===========");
+        log.info("=========== Store " + String.valueOf(actual) + "from response to list " + variable + " ===========");
     }
 
     @Then("response status should be {int}")
@@ -93,5 +96,10 @@ public class BaseApiSteps {
                 String.valueOf(expected),
                 "Mismatch at: " + jsonPath
         );
+    }
+
+    @Then("validate response body is match with expected schema: {string}")
+    public void validateResponseBodyMatchWithSchema(String schemaPath){
+        TestContext.getResponse().then().body(matchesJsonSchemaInClasspath(schemaPath));
     }
 }

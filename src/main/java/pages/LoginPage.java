@@ -4,16 +4,17 @@ import base.BasePage;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-import static org.bouncycastle.cms.RecipientId.password;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import utils.ConfigUtils;
 
 public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
+    private String baseURL = ConfigUtils.get("ui.baseUrl");
 
-    private String orangeUrl = "https://opensource-demo.orangehrmlive.com/";
     /*------------------ LOCATORS ------------------*/
     private String USERNAME_LOCATOR = "//input[@name='username']";
     private String PASSWORD_LOCATOR = "input[type='password']";
@@ -33,15 +34,11 @@ public class LoginPage extends BasePage {
     /*------------------ STEPS ------------------*/
     @Step("Open the URl")
     public void open() {
-        openUrl(orangeUrl);
+        openUrl(baseURL);
     }
 
     @Step("Login with username: {user}")
     public void login(String user, String pass) {
-//        driver.get(orangeUrl);
-//        driver.findElement(username()).sendKeys(user);
-//        driver.findElement(password()).sendKeys(pass);
-//        driver.findElement(loginBtn()).click();
         type(username(), user);
         type(password(),pass);
         click(loginBtn());

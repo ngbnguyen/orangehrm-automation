@@ -1,23 +1,22 @@
 package hooks;
 
-import driver.DriverFactory;
+import context.TestContext;
+import driver.DriverManager;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
-import org.json.JSONObject;
 
 public class Hooks {
 
-    @Before
+    @Before("@ui")
     public void setUp() {
         System.out.println(">>> HOOKS BEFORE RUNNING <<<");
-        DriverFactory.initDriver();
+        DriverManager.initDriver();
     }
 
-    @After
+    @After("@ui")
     public void tearDown() {
-        if (DriverFactory.getDriver() != null) {
-            DriverFactory.quitDriver();
+        if (DriverManager.getDriver() != null) {
+            DriverManager.quitDriver();
         }
     }
 }

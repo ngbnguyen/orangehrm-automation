@@ -4,11 +4,14 @@ import base.BasePage;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PIMPage extends BasePage {
     public PIMPage (WebDriver driver) {
         super(driver);
     }
+    protected static final Logger log = LoggerFactory.getLogger(PIMPage.class);
 
     /*------------------ LOCATORS ------------------*/
     /* Add Employee Locators */
@@ -66,13 +69,13 @@ public class PIMPage extends BasePage {
     /*------------------ STEPS ------------------*/
     @Step("Click on item tab: {item}")
     public void click_on_item_tab(String item){
-        System.out.println("========== Clicking on Tab: " + item + " ==========");
+        log.info("========== Clicking on Tab: " + item + " ==========");
         click(pimItemTab(item));
     }
 
     @Step("Fill in add Employee's information ")
     public void fill_in_add_employee_information(String firstname, String middlename, String lastname){
-        System.out.println("========== Filling in new Employee's Information ==========");
+        log.info("========== Filling in new Employee's Information ==========");
         type(pimEmployeeFirstname, firstname);
         type(pimEmployeeMiddlename, middlename);
         type(pimEmployeeLastname, lastname);
@@ -80,12 +83,14 @@ public class PIMPage extends BasePage {
 
     @Step("Add employee avatar")
     public void add_employee_avatar(String path){
+        log.info("========== Uploading file "+ path + " to element " + pimEmployeeAddAvatorBtn + " ==========");
         upload(pimEmployeeAddAvatorBtn, path);
     }
+
     @Step("Get Employee Id")
     public String get_employee_id(){
         String employeeId = getInputText(pimEmployeeId);
-        System.out.println("========== Employee ID is: "+ employeeId + " ==========");
+        log.info("========== Employee ID is: "+ employeeId + " ==========");
         return employeeId;
     }
 
@@ -109,14 +114,14 @@ public class PIMPage extends BasePage {
     @Step("Get Employee Name in Edit page")
     public String get_Employee_Edit_Name(){
         String employeeEditName = getText(pimEmployeeEditName);
-        System.out.println("========== Employee edit name is: "+ employeeEditName + " ==========");
+        log.info("========== Employee edit name is: "+ employeeEditName + " ==========");
         return employeeEditName;
     }
 
     @Step("Get Employee ID in Edit page")
     public String get_Employee_Edit_Id(){
         String employeeEditId = getInputText(pimEmployeeEditID);
-        System.out.println("========== Employee edit id is: "+ employeeEditId + " ==========");
+        log.info("========== Employee edit id is: "+ employeeEditId + " ==========");
         return employeeEditId;
     }
 
@@ -143,14 +148,14 @@ public class PIMPage extends BasePage {
 
     @Step("Fill in information for field: {string} {value}")
     public void fill_in_information_for_field(String field, String value){
-        System.out.println("========= Filling in formation for field: " + field + " , value: " + value + " =========");
+        log.info("========= Filling in formation for field: " + field + " , value: " + value + " =========");
         type(pimEmployeeEditField(field), value);
     }
 
     @Step("Get informatiom from field: {string}")
     public String get_information_from_field(String field){
         String value = getInputText(pimEmployeeEditField(field));
-        System.out.println("========= Value of field: " + field + " is: " + value + " =========" );
+        log.info("========= Value of field: " + field + " is: " + value + " =========" );
         return value;
     }
 }

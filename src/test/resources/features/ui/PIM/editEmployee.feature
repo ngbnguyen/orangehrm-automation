@@ -10,7 +10,8 @@ Feature: PIM UI
     And Get new employee id
     Then Employee ID is displayed
     When User clicks on Save button
-    And Wait for title visible: "Personal Details"
+    When Wait for Loading spinner
+    And Wait for title visible: "Employee Full Name"
     Then Validate employee name is correct "<firstname>" "<lastname>"
     And Validate employee ID is correct
 
@@ -18,6 +19,7 @@ Feature: PIM UI
     And User searches employee with employee ID
     When User edits Employee - Driver's License Number
     And User clicks on Save button
+    When Wait for Loading spinner
     Then Validate Driver's License Number is updated correctly
     Examples:
       | firstname | middlename | lastname     | avatarPath                        | password | confirmPassword |

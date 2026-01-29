@@ -10,6 +10,7 @@ Feature: PIM UI
         And Get new employee id
         Then Employee ID is displayed
         When User clicks on Save button
+        When Wait for Loading spinner
         And Wait for title visible: "Personal Details"
         Then Validate employee name is correct "<firstname>" "<lastname>"
         And Validate employee ID is correct

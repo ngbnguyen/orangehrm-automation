@@ -1,0 +1,26 @@
+<configuration debug="true">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">  //console appender
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n
+            </pattern>                                                    // write log to console
+        </encoder>a
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">     //file appender
+        <file>logs/automation.log</file>                                               // write log to file
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/automation-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>                                                 // keep log 7 days
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">                                                                // only write log from INFO
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>                                                     // log FILE and CONSOLE
+    </root>
+
+</configuration>

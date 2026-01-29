@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class JsonUtils {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();  // Lib to Convert JSON ⇄ Map
     public static Map<String, Object> readJson(String path) {
         try (InputStream is =
                      JsonUtils.class
@@ -14,9 +14,9 @@ public class JsonUtils {
                              .getResourceAsStream(path)) {
 
             if (is == null)
-                throw new RuntimeException("Cannot find file: " + path);
+                throw new RuntimeException("============== Cannot find file: " + path + " ==============");
 
-            return mapper.readValue(is, Map.class);
+            return mapper.readValue(is, Map.class);  //Convert JSON → Map
 
         } catch (Exception e) {
             throw new RuntimeException(e);

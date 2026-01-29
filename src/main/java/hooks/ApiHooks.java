@@ -5,7 +5,7 @@ import io.cucumber.java.After;
 
 public class ApiHooks {
 
-    @After
+    @After("@api")
     public void cleanUp() {
         TestContext.clearAll();
     }

@@ -1,10 +1,12 @@
 package stepDefinitions.ui;
 
-import driver.DriverFactory;
+import driver.DriverManager;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import pages.DashboardPage;
 import pages.PIMPage;
@@ -13,13 +15,13 @@ import java.util.Random;
 import java.util.UUID;
 
 public class PIMSteps {
-    WebDriver driver = DriverFactory.getDriver();
-    DashboardPage dashboardPage = new DashboardPage(driver);
+    WebDriver driver = DriverManager.getDriver();
     PIMPage pimPage = new PIMPage(driver);
     private String employeeId;
     private String actEmployeeEditName ;
     private String employeeUsername;
     private String employeeDriverLicenseNumber;
+    protected static final Logger log = LoggerFactory.getLogger(PIMSteps.class);
 
     @Given("Get new employee id")
     public void get_newEmployeeId(){
@@ -45,14 +47,14 @@ public class PIMSteps {
         int number = 1000 + random.nextInt(9000);
         employeeUsername = "User_" + number;
         pimPage.turn_on_create_login_details_switch();
-        System.out.println("========== Generated employee username is " + employeeUsername +" ==========");
+        log.info("========== Generated employee username is " + employeeUsername +" ==========");
         pimPage.fill_in_create_login_details(employeeUsername, password, confirmPassword);
     }
 
     @When("User clicks on Save button")
     public void clickOnSaveButton(){
+        log.info("============= Clicking on Save button ==============");
         pimPage.click_on_save_button();
-        pimPage.waitForSeconds(50);
     }
 
     @Then("Employee ID is displayed")
@@ -66,14 +68,14 @@ public class PIMSteps {
         actEmployeeEditName = pimPage.get_Employee_Edit_Name();
         String expEmployeeName = firstname + " " + lastname;
         Assert.assertEquals(actEmployeeEditName,expEmployeeName);
-        System.out.println("Employee edit name is equal to expected name: " + actEmployeeEditName + ", " + expEmployeeName);
+        log.info("Employee edit name is equal to expected name: " + actEmployeeEditName + ", " + expEmployeeName);
     }
 
     @Then("Validate employee ID is correct")
     public void validateEmployeeIDIsCorrect(){
         String actEmployeeID = pimPage.get_Employee_Edit_Id();
         Assert.assertEquals(actEmployeeID, employeeId);
-        System.out.println("Employee edit ID is equal to expected ID: " + actEmployeeID + ", " + employeeId);
+        log.info("Employee edit ID is equal to expected ID: " + actEmployeeID + ", " + employeeId);
     }
 
     @When("Wait for title visible: {string}")
@@ -103,7 +105,7 @@ public class PIMSteps {
     public void validateEmployeeDriverLicenseNumberIsUpdatedCorrect(){
         String actEmployeeDriverLicenseNumber = pimPage.get_information_from_field("Driver's License Number");
         Assert.assertEquals(actEmployeeDriverLicenseNumber, employeeDriverLicenseNumber);
-        System.out.println("Employee edited Driver's License Number is equal to expected Driver's License Number: " + actEmployeeDriverLicenseNumber + ", " + employeeDriverLicenseNumber);
+        log.info("Employee edited Driver's License Number is equal to expected Driver's License Number: " + actEmployeeDriverLicenseNumber + ", " + employeeDriverLicenseNumber);
     }
 
 }

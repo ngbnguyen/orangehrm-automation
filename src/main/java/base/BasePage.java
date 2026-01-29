@@ -1,34 +1,33 @@
 package base;
 
-import driver.DriverFactory;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.time.Duration;
-
-import driver.DriverManager;
-import utils.WaitUtils;
 
 public class BasePage {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected static final Logger log = LoggerFactory.getLogger(BasePage.class);
 
     public BasePage(WebDriver driver) {
         if (driver == null) {
-            throw new RuntimeException("WebDriver is null");
+            throw new RuntimeException("========== WebDriver is null ==========");
         }
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(50)); // Explicit wait for page
     }
 
     protected void openUrl(String url) {
         driver.get(url);
         waitForPageLoad();
-        System.out.println("========== Waiting for loading page ==========");
+        log.info("========== Waiting for loading page ==========");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
@@ -105,8 +104,9 @@ public class BasePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    protected void waitForClickable(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+    protected void waitForDisappear(By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
     public void waitForPageLoad() {
@@ -120,7 +120,7 @@ public class BasePage {
 
     public static void waitForSeconds(long seconds) {
         try {
-            System.out.println("========= Waiting for " + seconds + " seconds =========");
+            log.info("========= Waiting for " + seconds + " seconds =========");
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
